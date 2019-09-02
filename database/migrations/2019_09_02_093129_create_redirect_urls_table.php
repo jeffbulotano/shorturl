@@ -15,8 +15,9 @@ class CreateRedirectUrlsTable extends Migration
     {
         Schema::create('redirect_urls', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('short_url_hash');
-            $table->string('long_url');
+            $table->string('hash')->nullable()->unique();
+            $table->string('long_url')->unique();
+            $table->timestamps();
         });
     }
 

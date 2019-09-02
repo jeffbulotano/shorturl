@@ -12,3 +12,5 @@
 */
 
 $router->get('/', 'RedirectUrlController@home');
+
+$router->get('/{hash}', 'RedirectUrlController@redirect');

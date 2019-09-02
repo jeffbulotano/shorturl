@@ -98,6 +98,13 @@ if (class_exists('Laravel\Tinker\TinkerServiceProvider')) {
 
 $app->router->group([
     'namespace' => 'App\Http\Controllers',
+    'prefix' => 'api'
+], function ($router) {
+    require __DIR__.'/../routes/api.php';
+});
+
+$app->router->group([
+    'namespace' => 'App\Http\Controllers',
 ], function ($router) {
     require __DIR__.'/../routes/web.php';
 });
