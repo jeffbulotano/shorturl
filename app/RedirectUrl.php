@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class RedirectUrl extends Model
 {   
     private $rules = [
-        'hash' => 'string',
+        'long_url' => 'required'
     ];
 
     /**
