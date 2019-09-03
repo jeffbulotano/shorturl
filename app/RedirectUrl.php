@@ -5,13 +5,9 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 class RedirectUrl extends Model
-{
-    protected $primaryKey = 'hash';
-    
+{   
     private $rules = [
         'hash' => 'string',
-
-
     ];
 
     /**

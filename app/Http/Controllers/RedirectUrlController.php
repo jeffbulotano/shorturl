@@ -16,7 +16,7 @@ class RedirectUrlController extends Controller
     public function redirect($hash)
     {
         try {
-            $long_url = RedirectUrl::findOrFail($hash)->pluck('long_url')->first();
+            $long_url = RedirectUrl::where('hash', $hash)->pluck('long_url')->firstOrFail();
 
             return redirect($long_url);
         } catch(\Exception $error) {

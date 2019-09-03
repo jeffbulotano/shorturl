@@ -41,7 +41,7 @@ export default {
   }),
   methods: {
     createShortlink() {
-      axios.post('http://shorturl.test/api/redirect_urls/store', this.formData)
+      axios.post('http://shorturl.test/api/redirect_url/store', this.formData)
     }
   }
 }

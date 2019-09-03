@@ -65,6 +65,10 @@ $app->singleton(
 //     'auth' => App\Http\Middleware\Authenticate::class,
 // ]);
 
+$app->routeMiddleware([
+    'cors' => App\Http\Middleware\CorsMiddleware::class,
+]);
+
 /*
 |--------------------------------------------------------------------------
 | Register Service Providers
@@ -98,7 +102,8 @@ if (class_exists('Laravel\Tinker\TinkerServiceProvider')) {
 
 $app->router->group([
     'namespace' => 'App\Http\Controllers',
-    'prefix' => 'api'
+    'prefix' => 'api',
+    'middleware' => 'cors'
 ], function ($router) {
     require __DIR__.'/../routes/api.php';
 });
@@ -108,6 +113,5 @@ $app->router->group([
 ], function ($router) {
     require __DIR__.'/../routes/web.php';
 });
-
 
 return $app;
