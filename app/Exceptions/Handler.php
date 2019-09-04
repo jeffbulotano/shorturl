@@ -45,6 +45,17 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        /**
+         * If request is ajax return json with exception message
+         * 
+         * wantsJson() is checked here since we are using axios on the frontend
+         */
+        // if ($request->wantsJson()) {
+        //     return response()->json([
+        //         'message' => $exception->getMessage(),
+        //     ], $exception->getCode());
+        // }
+
         return parent::render($request, $exception);
     }
 }

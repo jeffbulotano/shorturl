@@ -57,9 +57,10 @@ class RedirectUrl extends Model
     /**
      * Run validations on url and return url for external redirection.
      * 
+     * @param string $url
      * @return string
      */
-    public function parseUrl($url) 
+    public function parseAndValidateUrl($url) 
     {
         $valid_url = $this->setUrlScheme($url);
         $valid_url = $this->validateUrl($valid_url);
@@ -71,6 +72,7 @@ class RedirectUrl extends Model
     /**
      * Set the url scheme if not available
      * 
+     * @param string $url
      * @return string
      */
     private function setUrlScheme($url) 
@@ -78,7 +80,7 @@ class RedirectUrl extends Model
         $url_scheme = parse_url($url, PHP_URL_SCHEME);
         
         if ($url_scheme && !in_array($url_scheme, $this->valid_url_schemes)) {
-            throw new Exception('Invalid URL protocol.');
+            throw new Exception('Invalid URL protocol.', 422);
         }
 
         return parse_url($url, PHP_URL_SCHEME) ? $url : $this->default_url_scheme . $url;
@@ -87,12 +89,13 @@ class RedirectUrl extends Model
     /**
      * Validate url using filter_var
      * 
+     * @param string $url
      * @return string
      */
     private function validateUrl($url)
     {
         if (!filter_var($url, FILTER_VALIDATE_URL)) {
-            throw new Exception('Invalid URL');
+            throw new Exception('Invalid URL.', 422);
         }
             
         return $url;
@@ -101,11 +104,12 @@ class RedirectUrl extends Model
     /**
      * Check blocked hosts
      * 
+     * @param string $url
      * @return string
      */
     private function checkBlockedHosts($url) {
         if (in_array($host = parse_url($url, PHP_URL_HOST), $this->blocked_hosts)) {
-            throw new Exception('This domain is blocked.');
+            throw new Exception('This domain is blocked.', 422);
         }
 
         return $url;
