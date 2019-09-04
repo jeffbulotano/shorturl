@@ -50,11 +50,11 @@ class Handler extends ExceptionHandler
          * 
          * wantsJson() is checked here since we are using axios on the frontend
          */
-        // if ($request->wantsJson()) {
-        //     return response()->json([
-        //         'message' => $exception->getMessage(),
-        //     ], $exception->getCode());
-        // }
+        if ($request->wantsJson()) {
+            return response()->json([
+                'message' => $exception->getMessage(),
+            ], $exception->getCode());
+        }
 
         return parent::render($request, $exception);
     }

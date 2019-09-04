@@ -8,7 +8,7 @@
       <v-flex md6 sm8 xs10>
         <v-card :loading="loading">
           <v-card-title class="title">Start creating short links</v-card-title>
-          <v-card-text>
+          <v-card-text class="pb-0">
             <v-form v-model="valid" @submit.prevent="validateAndSubmit" lazy-validation ref="form">
               <v-text-field
                 label="Type your original URL here"
@@ -21,6 +21,17 @@
               </v-text-field>
             </v-form>
           </v-card-text>
+
+          <v-fade-transition>
+            <v-card-text v-if="errorMessage">
+              <v-card color="error" dark>
+                <v-card-text>
+                  <span class="title">{{ errorMessage }}</span>
+                </v-card-text>
+              </v-card>
+            </v-card-text>
+          </v-fade-transition>
+          
           <v-card-text>
             <v-card outline class="mb-4" v-for="redirect in shortUrls" :key="redirect.hash">
               <v-card-text>
@@ -51,7 +62,8 @@ export default {
     formData: {
       long_url: ''
     },
-    shortUrls: []
+    shortUrls: [],
+    errorMessage: ''
   }),
   methods: {
     validateAndSubmit() {
@@ -61,6 +73,7 @@ export default {
     },
     createShortlink() {
       this.loading = true
+      this.errorMessage = ''
 
       axios.post(process.env.VUE_APP_ROOT_URL + 'api/redirect_url/store', this.formData).then(({data}) => {
         if (!this.shortUrls.some(v => v.hash === data.hash)) {
@@ -73,6 +86,7 @@ export default {
         this.loading = false
       }).catch(error => {
         console.log(error.response.data.message)
+        this.errorMessage = error.response.data.message
         this.loading = false
       })
     },
