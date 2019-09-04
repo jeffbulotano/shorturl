@@ -75,7 +75,7 @@ export default {
       this.loading = true
       this.errorMessage = ''
 
-      axios.post(process.env.VUE_APP_ROOT_URL + 'api/redirect_url/store', this.formData).then(({data}) => {
+      axios.post('api/redirect_url/store', this.formData).then(({data}) => {
         if (!this.shortUrls.some(v => v.hash === data.hash)) {
           this.shortUrls.unshift(data)
         }
